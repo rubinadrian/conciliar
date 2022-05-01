@@ -1,0 +1,20 @@
+h3 {
+  margin: 20px 0px 0px 0px;
+  padding: 0;
+  font-size: 0.9rem;
+  text-indent: 1rem;
+}
+
+tr.mat-header-row {
+  height: 1rem;
+}
+
+.mat-checkbox {
+  font-size: 0.83rem;
+  font-weight: 400;
+}
+
+.cnt_table {
+  max-height: 180px; 
+  overflow: auto;
+}

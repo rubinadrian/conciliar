@@ -1,0 +1,93 @@
+<div class="cont_name_table" [ngClass]="{
+    'bg-color-1': tableTitle == 'Pagos' && seccion == 'conciliar',
+    'bg-color-2': tableTitle == 'Cuotas' && seccion == 'conciliar',
+    'bg-color-3': tableTitle == 'Pagos' && seccion == 'conciliadas',
+    'bg-color-4': tableTitle == 'Cuotas' && seccion == 'conciliadas'
+  }" style="padding: 0px;">
+  <button mat-icon-button [matMenuTriggerFor]="menuColsPago">
+    <mat-icon>more_vert</mat-icon>
+  </button>
+
+  <mat-menu #menuColsPago="matMenu">
+    <mat-selection-list [(ngModel)]="columnsSel" (click)="$event.stopPropagation()">
+      <mat-list-option *ngFor="let col of columns" [value]="col" (click)="$event.stopPropagation()">
+        {{ col }}
+      </mat-list-option>
+    </mat-selection-list>
+  </mat-menu>
+  {{ tableTitle }}
+
+  <div class="divider"></div>
+
+  <!-- Filtrar por Mes/Año-->
+  <mat-form-field appearance="fill" *ngIf="!showConciliadas" style="max-width: 140px;">
+    <mat-label>Mes/Año</mat-label>
+    <input matInput [matDatepicker]="dp1" [formControl]="dateFilter" (dateChange)="applyFilterDate($event)" name="date">
+    <mat-datepicker-toggle matSuffix [for]="dp1"></mat-datepicker-toggle>
+    <mat-datepicker #dp1 startView="multi-year" (yearSelected)="chosenYearHandler($event, dp1)"
+      (monthSelected)="chosenMonthHandler($event, dp1)">
+    </mat-datepicker>
+  </mat-form-field>
+
+  <!-- Filtro por precio-->
+  <mat-form-field appearance="fill" style="max-width: 140px;">
+    <mat-label>Importe (~2%)</mat-label>
+    <input matInput [(ngModel)]="filterMount" (keyup)="applyFilter()" (paste)="applyFilterPaste($event)" (click)="$event.target.select()" type="text" name="price"/>
+    <mat-icon matSuffix>paid</mat-icon>
+  </mat-form-field>
+
+  <!-- Filtrar por Texto-->
+  <mat-form-field appearance="fill" style="max-width: 140px;">
+    <mat-label>Filtro</mat-label>
+    <input matInput [(ngModel)]="filterText" (keyup)="applyFilter()" (paste)="applyFilterPaste($event)" #inputFilterTable type="text" name="filter"/>
+    <mat-icon matSuffix>search</mat-icon>
+  </mat-form-field>
+
+
+
+</div>
+
+<div class="cont_table">
+  <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+    <!-- Checkbox Column -->
+    <ng-container matColumnDef="select">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td mat-cell *matCellDef="let row">
+        <app-tools [row]="row" (copy)="filterFromTools($event)"  (refreshData)="refreshTable()"></app-tools>
+
+        <mat-checkbox *ngIf="!row.conciliacion_id" (click)="$event.stopPropagation()" (change)="$event ? selectedRegs.toggle(row) : null"
+          [checked]="selectedRegs.isSelected(row)" style="margin-left: 30px; margin-right: 10px">
+        </mat-checkbox>
+      </td>
+      <td mat-footer-cell *matFooterCellDef></td>
+    </ng-container>
+
+    <ng-container [matColumnDef]="column" *ngFor="let column of columnsSel">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ column }}</th>
+      <td mat-cell *matCellDef="let element" [ngClass]="{
+          importe: column == 'COBRADO' || column == 'IMPORTE' || column == 'DIF',
+          numeric: isNumeric(element[column])}">
+        {{ showElement(element, column) }}
+      </td>
+      <td mat-footer-cell *matFooterCellDef>
+        <span class="importe" *ngIf="dataSource.data.length && (column == 'COBRADO' || column == 'IMPORTE')">{{ getTotal() | currency }}</span>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="[].concat(['select'], columnsSel); sticky: true"></tr>
+    <tr mat-row (click)="clickInTr(row)" [ngClass]="{
+        anulada: row['ESTADO_POLIZA'] == 'ANULADA',
+        clsg: row['CIA'] == '1' || row['CUENTA']== '13017',
+        persona: row['CIA'] == '2' || row['CUENTA']== '13097',
+        retiro: row['CIA'] == '4' || row['CUENTA']== '13120',
+        selected: selectedRegs.isSelected(row)
+      }" *matRowDef="let row; columns: [].concat(['select'], columnsSel)"></tr>
+    <tr mat-footer-row *matFooterRowDef="[].concat(['select'], columnsSel); sticky: true"></tr>
+  </table>
+
+  <div class="cont_loading" *ngIf="loading">
+    <img src="assets/images/loading3.gif" height="120" />
+  </div>
+</div>
+
+<mat-paginator [pageSizeOptions]="[25, 50, 100]"></mat-paginator>

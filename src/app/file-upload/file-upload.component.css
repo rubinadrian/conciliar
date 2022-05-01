@@ -1,0 +1,45 @@
+* {
+  color: rgb(87, 87, 87);
+}
+
+.cont_body {
+  min-height: 100vh;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: auto auto;
+  grid-gap: 50px;
+}
+
+.mat-form-field {
+  margin: 20px;
+}
+
+.spinner-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.button-container {
+  display: inline-block;
+  position: relative;
+}
+
+
+
+@media only screen and (max-width: 700px) {
+  .grid-container {
+    display: grid;
+    grid-template-columns: auto;
+    width: 350px;
+    margin: 0 auto;
+  }
+}

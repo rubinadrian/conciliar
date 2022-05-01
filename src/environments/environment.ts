@@ -3,7 +3,9 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  url:'http://back.conciliar.coopunion.com.ar/public/index.php/api/'
+ // url:'http://localhost:8010/public/index.php/api/'
 };
 
 /*

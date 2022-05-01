@@ -1,0 +1,17 @@
+<h5 mat-dialog-title>Comentario Poliza: {{ data.POLIZA }}</h5>
+<div mat-dialog-content>
+  <mat-form-field style="max-width: 300px;">
+    <mat-select [(value)]="data.tipo_comentario">
+      <mat-option [value]="0">Comentario</mat-option>
+      <mat-option [value]="1">Requiere modificación</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <textarea matInput [(ngModel)]="data.comentario" rows="5" cdkFocusInitial></textarea>
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Cancelar</button>
+  <button mat-flat-button color="primary" (click)="save()">Guardar</button>
+</div>
+

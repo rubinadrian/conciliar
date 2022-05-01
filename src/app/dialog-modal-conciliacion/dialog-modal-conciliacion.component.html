@@ -1,0 +1,43 @@
+
+<mat-dialog-content class="mat-typography">
+
+  <h3 class="bg-color-1">Pagos realizados</h3>
+  <div class="cnt_table">
+  <table mat-table [dataSource]="pagos">
+
+    <ng-container [matColumnDef]="column" *ngFor="let column of columnsPagos">
+      <th mat-header-cell *matHeaderCellDef> {{column}} </th>
+      <td mat-cell *matCellDef="let element"> {{showElement(element[column])}} </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="columnsPagos; sticky: true"></tr>
+    <tr mat-row *matRowDef="let row; columns: columnsPagos;"></tr>
+  </table>
+  </div>
+
+  <h3 class="bg-color-2">Cuotas 13017</h3>
+  <div class="cnt_table">
+    <table mat-table [dataSource]="cuotas">
+
+      <ng-container [matColumnDef]="column" *ngFor="let column of columnsCuotas">
+        <th mat-header-cell *matHeaderCellDef> {{column}} </th>
+        <td mat-cell *matCellDef="let element"> {{showElement(element[column])}} </td>
+      </ng-container>
+  
+      <tr mat-header-row *matHeaderRowDef="columnsCuotas; sticky: true"></tr>
+      <tr mat-row *matRowDef="let row; columns: columnsCuotas"></tr>
+    </table>
+  </div>
+
+
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <h5 style="font-weight: 400;margin: 0;">Pagos: {{imp_pagos | currency}} | Cuotas: {{imp_cuotas | currency}} | <span style="color: red">Dif: {{dif_conciliacion}}</span></h5>
+  <div style="flex: 1 1 auto;"></div>
+  <mat-checkbox *ngIf="!readOnly" [(ngModel)]="conc_inicial" title="la diferencia no se tendra en cuenta en conciliadas.">Conc. Inicial</mat-checkbox>
+  <div style="flex: 1 1 auto;"></div>
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button *ngIf="!readOnly" [disabled]="loading" mat-raised-button color="primary" (click)="conciliar()" cdkFocusInitial>Conciliar</button>
+</mat-dialog-actions>
+

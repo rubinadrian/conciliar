@@ -1,0 +1,107 @@
+<div class="header">
+  <br>
+</div>
+<div class="cont_body">
+  <div class="grid-container">
+
+    <div class="grid-item">
+      <h3>
+        <img src="assets/images/loading.gif" width="20" height="20" *ngIf="isLoadingPagos">
+        Pagos Realizados
+      </h3>
+      <form [formGroup]="formPagos" (ngSubmit)="submitFormPagos()" novalidate>
+        <mat-form-field>
+          <ngx-mat-file-input (change)="uploadFilePago($event)" accept=".csv,.txt"></ngx-mat-file-input>
+          <mat-icon matSuffix>folder</mat-icon>
+        </mat-form-field>
+
+        <div class="button-container">
+          <div class="spinner-container" *ngIf="isLoadingPagos" >
+            <mat-spinner diameter="24"></mat-spinner>
+          </div>
+          <button mat-raised-button [disabled]="isLoadingPagos || !filePagos">Subir Archivo</button>
+        </div>
+
+      </form>
+    </div>
+
+    <div  class="grid-item">
+        <p>Es para subir el archivo que nos envia la segunda con todos los pagos realizados.<br>
+        Tiene que ser ser CSV separado por comas. <br>
+        Para estar seguros, lo abren con Excel, le dan guardar como y seleccionan el tipo csv delimitado por comas.
+        El archivo tiene que tener en la primer fila el nombre de las columnas.<br>
+      </p>
+      <mat-accordion>
+        <mat-expansion-panel hideToggle>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Las columnas que si o si tiene que tener son:
+            </mat-panel-title>
+            <mat-panel-description></mat-panel-description>
+          </mat-expansion-panel-header>
+          <p>PRODUCTO	 POLIZA	 SUPLE	 CUOTA	 EXPEDIENTE	 EMISION	 MONEDA	 COBRADO	 VENCIMIENTO
+            FECCOBRO	 HORCOBRO	 NROLOTE	 NROTERM	 MOVIMIENTO	 COMISION	 PRIMA	 PREMIO</p>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </div>
+
+    <div class="grid-item">
+      <div class="button-container">
+        <div class="spinner-container" *ngIf="isLoadingCuotas" >
+          <mat-spinner diameter="24"></mat-spinner>
+        </div>
+        <p><button  mat-raised-button color="accent" (click)="updateCuotasFromDate()" [disabled]="isLoadingCuotas">Actualizar Cuotas</button></p>
+      </div>
+    </div>
+
+    <div  class="grid-item">
+      <p>Actualiza Cuotas lo que hace sincronizar las cuotas que estan en la 13017,13097 y 13120 con la base de datos de esta app.</p>
+    </div>
+
+    <div class="grid-item">
+      <h3>
+        <img src="assets/images/loading.gif" width="20" height="20" *ngIf="isLoadingListOper">
+        Listado de Operaciones
+      </h3>
+      <form [formGroup]="formListOper" (ngSubmit)="submitFormListOper()"
+        novalidate>
+        <mat-form-field>
+          <ngx-mat-file-input (change)="uploadFileListOper($event)" accept=".csv,.txt"></ngx-mat-file-input>
+          <mat-icon matSuffix>folder</mat-icon>
+        </mat-form-field>
+
+        <div class="button-container">
+          <div class="spinner-container" *ngIf="isLoadingListOper" >
+            <mat-spinner diameter="24"></mat-spinner>
+          </div>
+          <button mat-raised-button color="primary" [disabled]="isLoadingListOper || !fileListOper">Subir Archivo</button>
+        </div>
+      </form>
+    </div>
+
+    <div  class="grid-item">
+      <p>
+        El listado de operaciones es un reporte que se obtiene desde la segunda.<br>
+        Contiene todos lo movimientos que se hacen en expedientes relacionados con la cooperativa.<br>
+        Se sube tal cual se descarga.<br>
+        La primer fila contiene los encabezados.<br>
+      </p>
+      <mat-accordion>
+        <mat-expansion-panel hideToggle>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Las columnas que si o si tiene que tener son:
+            </mat-panel-title>
+            <mat-panel-description></mat-panel-description>
+          </mat-expansion-panel-header>
+          <p>'Referencia','Secc','Supl/End','CdPer','Premio','Estado_Poliza'</p>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </div>
+
+
+
+
+  </div>
+
+</div>

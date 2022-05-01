@@ -1,1 +1,98 @@
 /* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.cont_body {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  margin-top: 20px;
+  padding: 0px 20px;
+}
+
+.header {
+  padding: 10px; background-color: #f6faff;
+}
+
+.example-spacer {
+  flex: 1 1 auto;
+}
+
+.cont_loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: white;
+  margin-top: 20px;
+  text-align: center;
+}
+
+
+.cont_table {
+  height: 400px;
+  overflow: auto;
+}
+
+.importe {
+  font-weight: bold;
+  text-align: right;
+}
+
+.mat-column-select {
+  text-align: right;
+}
+
+.mat-row .mat-cell {
+  position: relative;
+}
+
+.cont_name_table {
+  box-sizing: border-box;
+  padding: 10px;
+  color: white;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+
+.bg-color-1 {
+  background-color: slategrey;
+  color:white;
+}
+
+.bg-color-2 {
+  background-color: darkseagreen;
+  color:white;
+}
+
+.bg-color-3 {
+  background-color: #a793d1;
+  color:white;
+}
+
+.bg-color-4 {
+  background-color: #c961a6;
+  color:white;
+}
+
+.mat-header-row {
+  background-color: whitesmoke;
+}
+
+tr:not(.mat-header-row):hover {
+  background: whitesmoke;
+  cursor: pointer;
+}
+
+.mat-cell {
+  white-space: nowrap;
+}
+
+.mat-header-row th.mat-header-cell, tr.mat-row td.mat-cell, tr.mat-row td.mat-footer-cell {
+  padding: 0px 5px !important;
+}
+
+table {
+  width: 100%;
+}

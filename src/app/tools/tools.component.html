@@ -1,0 +1,32 @@
+<div class="tools_reg" (click)="$event.stopPropagation()" 
+        [ngClass]="{'comentario_tipo_0': row.tipo_comentario == 0,
+                    'comentario_tipo_1': row.tipo_comentario == 1}">
+  
+  <button class="color-icon-0" mat-icon-button (click)="getAllCuotasPoliza($event, row)" *ngIf="row.POLIZA" title="Consulta todas las cuotas de esta poliza." tabindex="-1">
+    <mat-icon>pageview</mat-icon>
+  </button>
+  
+  <button class="color-icon-1" mat-icon-button (click)="clipboard($event, row.POLIZA)"  *ngIf="row.POLIZA" title="Poliza" tabindex="-1">
+    <mat-icon>content_copy</mat-icon>
+  </button>
+  
+  <button class="color-icon-2" mat-icon-button (click)="clipboard($event, row.NROPERSONA)" *ngIf="row.NROPERSONA" title="NroPersona" tabindex="-1">
+    <mat-icon>content_copy</mat-icon>
+  </button>
+ 
+  <button class="color-icon-3" mat-icon-button (click)="getConciliacionAndOpenDialog(row)"
+          *ngIf="row.grupo_pago_id || row.grupo_cuota_id"  title="Mostrar Conciliacion" tabindex="-1">
+    <span class="material-icons">polymer</span>
+  </button>
+
+  <button class="color-icon-4" mat-icon-button (click)="openComentario(row)" title="Comentario" tabindex="-1">
+    <span class="material-icons">textsms</span>
+  </button>
+
+  <button class="color-icon-5" mat-icon-button (click)="setP2(row)" *ngIf="row.NRORECIBO"
+          title="Se pago por otro metodo y no estaria en 13017" tabindex="-1">P2</button>
+
+</div>
+
+
+<app-loading-full-screen *ngIf="loading"></app-loading-full-screen>

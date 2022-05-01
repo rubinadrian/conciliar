@@ -1,0 +1,32 @@
+.black-screen {
+  display: flex;
+  position: fixed;
+  top: 0px;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+  background-color: rgba(0,0,0,0.6);
+  z-index: 999999;
+  justify-content: center;
+  align-items: center;
+  color:white;
+}
+
+.black-screen:hover {
+  cursor:wait;
+}
+
+.column-center {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.black-screen p {
+  line-height: 50px;
+}
+
+::ng-deep .mat-progress-spinner circle, .mat-spinner circle {
+  stroke: #969696!important;
+}

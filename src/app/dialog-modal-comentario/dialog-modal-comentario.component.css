@@ -1,0 +1,16 @@
+.mat-form-field {
+  width: 100%;
+}
+
+textarea.mat-input-element {
+  background: #fafafa;
+  padding: 10px;
+  box-sizing: border-box;
+}
+.mat-dialog-actions {
+  justify-content: flex-end;
+}
+
+h5 {
+  margin: 0;
+}

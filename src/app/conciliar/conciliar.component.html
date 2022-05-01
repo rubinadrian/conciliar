@@ -1,0 +1,83 @@
+<div class="header">
+  <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+    <mat-icon>menu</mat-icon>
+  </button>
+  <mat-menu #menu="matMenu" id="menu">
+    <button (click)="conciliarAuto(0)" mat-menu-item title="Concilia automáticamente los pagos y cuotas que coincidan en póliza, mes e importe">
+      <mat-icon>settings_suggest</mat-icon>
+      <span>Conciliacion Auto</span>
+    </button>
+    <button (click)="conciliarDebCre()" mat-menu-item title="Concilia automáticamente las cuotas que tengan un debito del mismo importe">
+      <mat-icon>flaky</mat-icon>
+      <span>Conciliacion Cuotas Debito/Credito</span>
+    </button>
+    <button (click)="conciliarAgroup()" mat-menu-item title="Agrupa todas las cuotas de una póliza en el mes y la concilia con los pagos que también están agrupados en caso de repetirse la póliza. La conciliación es efectiva si coincide Póliza, Importe y Mes">
+      <mat-icon>compress</mat-icon>
+      <span>Conc. Auto Agrupa Poliza/Mes</span>
+    </button>
+    <button (click)="conciliarAgroupNroPersona()" mat-menu-item title="Agrupa todas las cuotas de una póliza en el mes y la concilia con los pagos que también están agrupados en caso de repetirse la póliza. La conciliación es efectiva si coincide Póliza, Importe y Mes">
+      <mat-icon>compress</mat-icon>
+      <span>Conc. Auto Agrupa NroPersona/Mes</span>
+    </button>
+    <button (click)="conciliarAuto(2)" mat-menu-item title="Concilia automáticamente los pagos y cuotas del mes anterior que coincidan en póliza e importe">
+      <mat-icon>skip_previous</mat-icon>
+      <span>Conc. Auto Cuota Mes Anterior</span>
+    </button>
+    <button (click)="conciliarAuto(1)" mat-menu-item title="Concilia automáticamente los pagos y cuotas del mes siguiente que coincidan en póliza e importe">
+      <mat-icon>skip_next</mat-icon>
+      <span>Conc. Auto Cuota Mes Siguiente</span>
+    </button>
+    <button (click)="conciliarPackAuto(0)" mat-menu-item title="Concilia automáticamente pack que coinciden en mes e importe. Utiliza NroVinculante del listado de operaciones.">
+      <mat-icon>dynamic_feed</mat-icon>
+      <span>Conc. Auto PACK</span>
+    </button>
+    <button (click)="conciliarPackAuto(2)" mat-menu-item title="Concilia automáticamente pagos que coinciden con el mes anterior de la cuota. Utiliza NroVinculante del listado de operaciones.">
+      <mat-icon>fast_rewind</mat-icon>
+      <span>Conc. Auto PACK mes anterior</span>
+    </button>
+    <button (click)="conciliarPackAuto(1)" mat-menu-item title="Concilia automáticamente pagos que coinciden con el mes siguiente de la cuota. Utiliza NroVinculante del listado de operaciones.">
+      <mat-icon>fast_forward</mat-icon>
+      <span>Conc. Auto PACK mes siguiente</span>
+    </button>
+    </mat-menu>
+</div>
+
+<div class="mitad">
+  <app-table
+  [loading]="loading_pagos"
+  [columnsSel]="columnsPagosSel"
+  [columns]="columnsPagos"
+  [dataSource]="pagos"
+  dataType="pagos"
+  seccion="conciliar"
+  [selectedRegs]="sel_pagos"
+  tableTitle="Pagos"
+  (refreshData)="getDataPagos()"
+  ></app-table>
+</div>
+<div class="mitad">
+  <app-table
+  [loading]="loading_cuotas"
+  [columnsSel]="columnsCuotasSel"
+  [columns]="columnsCuotas"
+  [dataSource]="cuotas"
+  dataType="cuotas"
+  seccion="conciliar"
+  [selectedRegs]="sel_cuotas"
+  tableTitle="Cuotas"
+  (refreshData)="getDataCuotas()"
+  ></app-table>
+</div>
+
+<div style="padding: 20px; text-align: right;display: flex;">
+  <mat-chip-list>
+    <mat-chip >Pagos: {{ totalPagosSel | currency}} ({{sel_pagos.selected.length}})</mat-chip>
+    <mat-chip >Cuotas: {{ totalCuotasSel  | currency }} ({{sel_cuotas.selected.length}})</mat-chip>
+    <mat-chip color="accent" selected>Dif: {{ totalCuotasSel + totalPagosSel | currency }}</mat-chip>
+  </mat-chip-list>
+  <div class="example-spacer"></div>
+  <button mat-raised-button color="primary" (click)="conciliar()">Conciliar</button>
+</div>
+
+
+<app-loading-full-screen *ngIf="loading" ></app-loading-full-screen>

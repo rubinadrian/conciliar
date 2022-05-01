@@ -1,0 +1,85 @@
+<div class="header">
+  <mat-form-field>
+    <mat-label>Desde Mes/Año</mat-label>
+    <input
+      matInput
+      [matDatepicker]="dp1"
+      [formControl]="fromMonthYear"
+      (dateChange)="getConciliadas()"
+    />
+    <mat-datepicker-toggle matSuffix [for]="dp1"></mat-datepicker-toggle>
+    <mat-datepicker
+      #dp1
+      startView="multi-year"
+      (yearSelected)="chosenYearHandler($event, dp1)"
+      (monthSelected)="chosenMonthHandler($event, dp1)"
+    >
+    </mat-datepicker>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Hasta Mes/Año</mat-label>
+    <input
+      matInput
+      [matDatepicker]="dp2"
+      [formControl]="toMonthYear"
+      (dateChange)="getConciliadas()"
+    />
+    <mat-datepicker-toggle matSuffix [for]="dp2"></mat-datepicker-toggle>
+    <mat-datepicker
+      #dp2
+      startView="multi-year"
+      (yearSelected)="chosenYearHandler($event, dp2)"
+      (monthSelected)="chosenMonthHandler($event, dp2)"
+    >
+    </mat-datepicker>
+  </mat-form-field>
+  <mat-checkbox [(ngModel)]="conc_initial" (change)="getConciliadas()">Conc. Inicial</mat-checkbox>
+</div>
+
+  <div class="mitad">
+    <app-table
+    [loading]="loading_pagos"
+    [columnsSel]="columnsPagosSel"
+    [columns]="columnsPagos"
+    [dataSource]="pagos"
+    dataType="pagos"
+    seccion="conciliadas"
+    [showConciliadas]="true"
+    [selectedRegs]="sel_pagos"
+    tableTitle="Pagos"
+    (clickRow)="delConciliacion($event)"
+    ></app-table>
+  </div>
+  <div class="mitad">
+    <app-table
+    [loading]="loading_cuotas"
+    [columnsSel]="columnsCuotasSel"
+    [columns]="columnsCuotas"
+    [dataSource]="cuotas"
+    [showConciliadas]="true"
+    dataType="cuotas"
+    seccion="conciliadas"
+    [selectedRegs]="sel_cuotas"
+    tableTitle="Cuotas"
+    (clickRow)="delConciliacion($event)"
+    ></app-table>
+  </div>
+
+
+<app-loading-full-screen *ngIf="loading"></app-loading-full-screen>
+
+
+<!-- 
+
+<div style="max-width: 900px; margin: 0 auto">
+
+  <div class="cont_totals" *ngIf="!isEmpty(totalsMonth)">
+    <mat-card-content>
+      <mat-chip-list>
+        <mat-chip color="primary" selected *ngFor="let totalMonth of totalsMonth | keyvalue">{{totalMonth.key}}: {{totalMonth.value  | currency}}</mat-chip>
+        <mat-chip color="accent" selected>Direfencia Total: {{getTotalDif() | currency}}</mat-chip>
+      </mat-chip-list>
+    </mat-card-content>
+  </div>
+</div> -->

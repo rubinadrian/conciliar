@@ -1,0 +1,112 @@
+<div class="header">
+  <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+    <mat-icon>menu</mat-icon>
+  </button>
+  <mat-menu #menu="matMenu" id="menu">
+    <button (click)="conciliarAuto(0)" mat-menu-item title="Concilia automáticamente los pagos y cuotas que coincidan en póliza, mes e importe">
+      <mat-icon>settings_suggest</mat-icon>
+      <span>Conciliacion Auto</span>
+    </button>
+    <button (click)="conciliarDebCre()" mat-menu-item title="Concilia automáticamente las cuotas que tengan un debito del mismo importe">
+      <mat-icon>flaky</mat-icon>
+      <span>Conciliacion Cuotas Debito/Credito</span>
+    </button>
+    <button (click)="conciliarAgroup()" mat-menu-item title="Agrupa todas las cuotas de una póliza en el mes y la concilia con los pagos que también están agrupados en caso de repetirse la póliza. La conciliación es efectiva si coincide Póliza, Importe y Mes">
+      <mat-icon>compress</mat-icon>
+      <span>Conc. Auto Agrupa Poliza/Mes</span>
+    </button>
+    <button (click)="conciliarAuto(1)" mat-menu-item title="Concilia automáticamente los pagos y cuotas del mes siguiente que coincidan en póliza e importe">
+      <mat-icon>skip_next</mat-icon>
+      <span>Conc. Auto Cuota Mes Siguiente</span>
+    </button>
+    <button (click)="conciliarAuto(2)" mat-menu-item title="Concilia automáticamente los pagos y cuotas del mes anterior que coincidan en póliza e importe">
+      <mat-icon>skip_previous</mat-icon>
+      <span>Conc. Auto Cuota Mes Anterior</span>
+    </button>
+    <button (click)="conciliarPackAuto(0)" mat-menu-item title="Concilia automáticamente pack que coinciden en mes e importe. El vinculo es a travez del NROPERSONA">
+      <mat-icon>dynamic_feed</mat-icon>
+      <span>Conc. Auto PACK</span>
+    </button>
+    <button (click)="conciliarPackAuto(1)" mat-menu-item title="Concilia automáticamente pagos que coinciden con el mes siguiente de la cuota. El vinculo es a travez del NROPERSONA">
+      <mat-icon>fast_forward</mat-icon>
+      <span>Conc. Auto PACK mes siguiente</span>
+    </button>
+    <button (click)="conciliarPackAuto(2)" mat-menu-item title="Concilia automáticamente pagos que coinciden con el mes anterior de la cuota. El vinculo es a travez del NROPERSONA">
+      <mat-icon>fast_rewind</mat-icon>
+      <span>Conc. Auto PACK mes anterior</span>
+    </button>
+    </mat-menu>
+
+
+  <!-- Filtro de polizas -->
+  <mat-form-field appearance="legacy">
+    <input matInput  [(ngModel)]="filterText" (keyup)="applyFilter($event)" (paste)="applyFilterPaste($event)" placeholder="Filtrar">
+    <mat-icon matSuffix>search</mat-icon>
+  </mat-form-field>
+
+  <!-- Flechas para seleccionar secuencialmente -->
+  <button mat-icon-button (click)="prevFiltroIndex()">
+    <mat-icon>keyboard_arrow_left</mat-icon>
+  </button>
+  <mat-form-field appearance="none" *ngIf="filterIndex !== -1" style="max-width: 30px;">
+    <input matInput [(ngModel)]="filterIndex" style="text-align: center;">
+  </mat-form-field>
+  <button mat-icon-button (click)="nextFiltroIndex()">
+    <mat-icon>keyboard_arrow_right</mat-icon>
+  </button>
+
+  <!-- Filtrar por Mes/Año-->
+  <mat-form-field>
+    <mat-label>Mes/Año</mat-label>
+    <input matInput [matDatepicker]="dp1" [formControl]="dateFilter" (dateChange)="applyFilterDate($event)">
+    <mat-datepicker-toggle matSuffix [for]="dp1"></mat-datepicker-toggle>
+    <mat-datepicker #dp1
+                    startView="multi-year"
+                    (yearSelected)="chosenYearHandler($event, dp1)"
+                    (monthSelected)="chosenMonthHandler($event, dp1)"
+                    >
+    </mat-datepicker>
+  </mat-form-field>
+
+
+</div>
+
+<div class="mitad">
+  <app-table
+  [loading]="loading_pagos"
+  [columnsSel]="columnsPagosSel"
+  [columns]="columnsPagos"
+  [dataSource]="pagos"
+  dataType="pagos"
+  [selectedRegs]="sel_pagos"
+  tableTitle="Pagos"
+  [filterText] = "filterText"
+  (filterTextChange) = "filterTables($event)"
+  ></app-table>
+</div>
+<div class="mitad">
+  <app-table
+  [loading]="loading_cuotas"
+  [columnsSel]="columnsCuotasSel"
+  [columns]="columnsCuotas"
+  [dataSource]="cuotas"
+  dataType="cuotas"
+  [selectedRegs]="sel_cuotas"
+  tableTitle="Cuotas"
+  [filterText] = "filterText"
+  (filterTextChange) = "filterTables($event)"
+  ></app-table>
+</div>
+
+<div style="padding: 20px; text-align: right;display: flex;">
+  <mat-chip-list>
+    <mat-chip >Pagos: {{ totalPagosSel | currency}} ({{sel_pagos.selected.length}})</mat-chip>
+    <mat-chip >Cuotas: {{ totalCuotasSel  | currency }} ({{sel_cuotas.selected.length}})</mat-chip>
+    <mat-chip color="accent" selected>Dif: {{ totalCuotasSel + totalPagosSel | currency }}</mat-chip>
+  </mat-chip-list>
+  <div class="example-spacer"></div>
+  <button mat-raised-button color="primary" (click)="conciliar()">Conciliar</button>
+</div>
+
+
+<app-loading-full-screen *ngIf="loading" ></app-loading-full-screen>

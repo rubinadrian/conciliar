@@ -1,0 +1,68 @@
+.numeric {
+  text-align: right;
+}
+
+.cont_name_table {
+  display: flex;
+  align-items: center;
+}
+
+.anulada {
+  background-color: rgb(255 250 235);
+}
+
+tr.clsg td {
+}
+
+tr.persona td {
+  color:#6767a4;
+}
+
+tr.retiro td {
+  color:#67a469;
+}
+
+.mat-footer-cell {
+  background-color: rgb(245 245 245);
+  border: none;
+}
+
+.mat-header-row th.mat-header-cell, tr.mat-row td.mat-cell, tr.mat-row td.mat-footer-cell {
+  padding: 0px;
+}
+
+.divider {
+  flex: 1 1 100%;
+}
+
+::ng-deep .cont_name_table .mat-form-field:hover {
+  cursor: pointer;
+}
+
+::ng-deep .cont_name_table .mat-form-field-wrapper {
+  padding-bottom: 0 !important;
+}
+
+::ng-deep .cont_name_table .mat-form-field-label {
+  /*change color of label*/
+  color: white !important;
+ }
+
+ ::ng-deep .cont_name_table .mat-form-field-underline {
+  /*change color of underline*/
+  display: none;
+  background-color: transparent !important;
+} 
+
+::ng-deep .cont_name_table .mat-form-field-ripple {
+ /*change color of underline when focused*/
+ background-color: white !important;;
+}
+
+::ng-deep .cont_name_table .mat-form-field::placeholder {
+  color: white !important;
+}
+
+::ng-deep .cont_name_table button.mat-focus-indicator.mat-icon-button.mat-button-base {
+  color: white;
+}

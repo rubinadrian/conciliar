@@ -1,0 +1,14 @@
+.mitad {
+  display: inline-block;
+  width: 50%;
+  box-sizing: border-box;
+}
+
+
+.mat-form-field {
+  margin: 0 10px;
+}
+
+::ng-deep.mat-menu-panel {
+  max-width: none !important;
+}
